@@ -5,7 +5,7 @@ This is a JavaScript reverse spellchecker. It takes words and screws up the spel
 Include `misspell.js` in your project with a `<script>` tag or via `npm install misspell`. Then you can require it and use it right away!
 
 ```
-misspell = require("misspell") // if you haven't included it with a script tag
+var misspell = require("misspell") // if you haven't included it with a script tag
 
 var misspelledText = misspell(text, capitalisation[, capsTypes])
 // text: the string you would like to process
