@@ -1,6 +1,6 @@
 {
   "name": "misspell",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Reverse spellcheck",
   "main": "misspell.js",
   "scripts": {
