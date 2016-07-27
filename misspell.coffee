@@ -66,5 +66,3 @@ misspell = (text, caps, capsTypes) ->
 
 misspell.random = (min, max) ->
 	return Math.floor(Math.random() * (max - min)) + min;
-
-console.log misspell("i love you like george bush loves saudi arabia's oil supply", true, [1, 3, 4, 6])
