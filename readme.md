@@ -2,9 +2,11 @@
 This is a JavaScript reverse spellchecker. It takes words and screws up the spelling and capitalisation.
 
 ## Usage
-Include `misspell.js` in your project with a `<script>` tag. Just make sure it's included in the namespace you want to access it from. I can't be assed to set up NPM at the moment.
+Include `misspell.js` in your project with a `<script>` tag or via `npm install misspell`. Then you can require it and use it right away!
 
 ```
+misspell = require("misspell") // if you haven't included it with a script tag
+
 var misspelledText = misspell(text, capitalisation[, capsTypes])
 // text: the string you would like to process
 // capitalisation: boolean, set this to true or false depending on if you want the capitalisation to be changed.

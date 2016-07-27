@@ -72,4 +72,6 @@ misspell = (text, caps, capsTypes) ->
     return newWords.join(" ")
 
 misspell.random = (min, max) ->
-    return Math.floor(Math.random() * (max - min)) + min;
+    return Math.floor(Math.random() * (max - min)) + min
+
+module.exports = misspell
