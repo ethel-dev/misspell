@@ -3,7 +3,7 @@ var misspell, revspellcheck;
 
 revspellcheck = require("./reverse-spellcheck.json");
 
-misspell = function(text, caps, capsTypes) {
+misspell = function(text, caps, capsTypes, misspellPercent) {
   var capsType, i, j, k, l, len, len1, len2, len3, letter, letterToSwap, letterToSwapIndex, letters, m, misspellType, newWords, randomCapLetter, startCaps, upperPartOfWord, w, word, words, wordx, x;
   words = text.split(" ");
   if (capsTypes != null) {
@@ -13,10 +13,15 @@ misspell = function(text, caps, capsTypes) {
   }
   newWords = [];
   startCaps = null;
+  if (misspellPercent != null) {
+    null;
+  } else {
+
+  }
   for (w = j = 0, len = words.length; j < len; w = ++j) {
     word = words[w];
     letters = word.split("");
-    if (words[misspell.random(0, words.length)] === words[misspell.random(0, words.length)]) {
+    if (misspell.random(0, 101) <= misspellPercent) {
       misspellType = misspell.random(1, 3);
       switch (misspellType) {
         case 1:
@@ -94,7 +99,9 @@ misspell.random = function(min, max) {
 
 module.exports = misspell;
 
-if (process.argv[4] != null) {
+if (process.argv[5] != null) {
+  console.log(misspell(String(process.argv[2]), String(process.argv[3]) === "true", JSON.parse(process.argv[4]), Number(process.argv[5])));
+} else if (process.argv[4] != null) {
   console.log(misspell(String(process.argv[2]), String(process.argv[3]) === "true", JSON.parse(process.argv[4])));
 } else if (process.argv[3] != null) {
   console.log(misspell(String(process.argv[2]), String(process.argv[3]) === "true"));

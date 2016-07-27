@@ -1,9 +1,9 @@
-# misspell 1.0.2
+# misspell 1.1.0
 # by ethan arterberry
 
 revspellcheck = require "./reverse-spellcheck.json"
 
-misspell = (text, caps, capsTypes) ->
+misspell = (text, caps, capsTypes, misspellPercent) ->
     words = text.split " "
 
     # pick capitalisation mode
@@ -15,11 +15,14 @@ misspell = (text, caps, capsTypes) ->
     newWords = []
     startCaps = null
 
+    # default misspellchance
+    if misspellPercent? then null else
+
     for word, w in words
         letters = word.split ""
 
         # pick two random words from the string. if the random words match, time to misspell a word!
-        if words[misspell.random(0, words.length)] is words[misspell.random(0, words.length)]
+        if misspell.random(0, 101) <= misspellPercent
             misspellType = misspell.random(1, 3) # pick number between 1 and 3 to pick a random misspell mode
             switch misspellType
                 when 1
@@ -87,7 +90,9 @@ misspell.random = (min, max) ->
 module.exports = misspell
 
 # ghetto CLI
-if process.argv[4]?
+if process.argv[5]?
+    console.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"), JSON.parse(process.argv[4]), Number(process.argv[5]))
+else if process.argv[4]?
     console.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"), JSON.parse(process.argv[4]))
 else if process.argv[3]?
     console.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"))
