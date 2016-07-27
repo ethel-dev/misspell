@@ -4,20 +4,20 @@ var misspell, revspellcheck;
 revspellcheck = require("./reverse-spellcheck.json");
 
 misspell = function(text, caps, capsTypes) {
-  var capsType, i, j, k, l, len, len1, len2, len3, len4, letter, letterToSwap, letterToSwapIndex, letters, m, misspellType, n, newWords, o, randomCapLetter, startCaps, upperPartOfWord, w, word, words, wordx, x;
+  var capsType, i, j, k, l, len, len1, len2, len3, letter, letterToSwap, letterToSwapIndex, letters, m, misspellType, newWords, randomCapLetter, startCaps, upperPartOfWord, w, word, words, wordx, x;
   words = text.split(" ");
-  if (typeof capTypes !== "undefined" && capTypes !== null) {
+  if (capsTypes != null) {
     capsType = capsTypes[misspell.random(0, capsTypes.length)];
   } else {
     capsType = misspell.random(1, 7);
   }
-  misspellType = misspell.random(1, 3);
   newWords = [];
   startCaps = null;
-  for (w = k = 0, len = words.length; k < len; w = ++k) {
+  for (w = j = 0, len = words.length; j < len; w = ++j) {
     word = words[w];
     letters = word.split("");
     if (words[misspell.random(0, words.length)] === words[misspell.random(0, words.length)]) {
+      misspellType = misspell.random(1, 4);
       switch (misspellType) {
         case 1:
           letterToSwapIndex = misspell.random(0, letters.length - 1);
@@ -29,10 +29,11 @@ misspell = function(text, caps, capsTypes) {
           if (revspellcheck[word] != null) {
             words[w] = revspellcheck[word];
           } else {
-            for (x = l = 0, len1 = words.length; l < len1; x = ++l) {
+            for (x = k = 0, len1 = words.length; k < len1; x = ++k) {
               wordx = words[x];
               if (revspellcheck[wordx] != null) {
                 words[x] = revspellcheck[wordx];
+                break;
               }
             }
           }
@@ -56,7 +57,7 @@ misspell = function(text, caps, capsTypes) {
             letters = letters.join("").toLowerCase().split("");
             break;
           case 5:
-            for (i = m = 0, len2 = letters.length; m < len2; i = ++m) {
+            for (i = l = 0, len2 = letters.length; l < len2; i = ++l) {
               letter = letters[i];
               randomCapLetter = misspell.random(0, 3);
               switch (randomCapLetter) {
@@ -69,15 +70,11 @@ misspell = function(text, caps, capsTypes) {
             }
             break;
           case 6:
-            for (i = n = 0, len3 = letters.length; n < len3; i = ++n) {
+            for (i = m = 0, len3 = letters.length; m < len3; i = ++m) {
               letter = letters[i];
               if (misspell.random(0, text.length) === misspell.random(0, text.length) && startCaps !== true) {
                 startCaps = true;
-                upperPartOfWord = letters.slice(i, letters.length);
-                for (j = o = 0, len4 = upperPartOfWord.length; o < len4; j = ++o) {
-                  letter = upperPartOfWord[j];
-                  upperPartOfWord[j] = letter.toUpperCase();
-                }
+                upperPartOfWord = letters.slice(i, letters.length).join("").toUpperCase().split("");
                 letters = letters.slice(0, i).concat(upperPartOfWord);
               }
             }
@@ -96,3 +93,13 @@ misspell.random = function(min, max) {
 };
 
 module.exports = misspell;
+
+if (process.argv[4] != null) {
+  console.log(misspell(String(process.argv[2]), String(process.argv[3]) === "true", JSON.parse(process.argv[4])));
+} else if (process.argv[3] != null) {
+  console.log(misspell(String(process.argv[2]), String(process.argv[3]) === "true"));
+} else if (process.argv[2] != null) {
+  console.log(misspell(String(process.argv[2]), true));
+} else if (process.argv[1] != null) {
+  console.log("You just ran Misspell without any arguments. You can use Misspell like a CLI if you'd like, just put the arguments in the same order you would using it in JavaScript.");
+}

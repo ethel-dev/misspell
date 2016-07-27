@@ -20,3 +20,5 @@ var misspelledText = misspell(text, capitalisation[, capsTypes])
     // mode 6: "tumblr" mode, begins a string normally and eventually at a random place goES INTO ALL CAPS AND CONTINUES TO BE ALL CAPS UNTIL THE END OF THE STRING
 // an example of a value you can supply for capsTypes is [1, 3, 5], which only allows jaden smith mode, uppercase mode, and totally screwed up mode.
 ```
+
+You can also play around with `misspell.js` like a CLI. Run it with `node` and pass the same arguments you'd pass to it as a function in the same order and it'll pipe out the result.
