@@ -1,10 +1,12 @@
 # misspell 0.1
 # by ethan arterberry
 
+revspellcheck = require "./reverse-spellcheck.json"
+
 misspell = (text, caps, capsTypes) ->
 	words = text.split " "
-	capsType = capsTypes[misspell.random(0, capsTypes.length)] || misspell.random(1, 7)
-	misspellType = misspell.random(1, 2)
+	if capTypes? then capsType = capsTypes[misspell.random(0, capsTypes.length)] else capsType = misspell.random(1, 7)
+	misspellType = misspell.random(1, 3)
 	newWords = []
 	startCaps = null
 	for word, w in words
@@ -57,8 +59,13 @@ misspell = (text, caps, capsTypes) ->
 					letters[letterToSwapIndex] = letters[letterToSwapIndex + 1]
 					letters[letterToSwapIndex + 1] = letterToSwap
 				when 2
-					# rot13 substitution
-					console.log("meh")
+					# misspell dictionary
+					if revspellcheck[word]?
+						words[w] = revspellcheck[word]
+					else
+						for wordx, x in words
+							if revspellcheck[wordx]?
+								words[x] = revspellcheck[wordx]
 
 		newWords.push(letters.join(""))
 
