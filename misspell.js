@@ -17,7 +17,7 @@ misspell = function(text, caps, capsTypes) {
     word = words[w];
     letters = word.split("");
     if (words[misspell.random(0, words.length)] === words[misspell.random(0, words.length)]) {
-      misspellType = misspell.random(1, 4);
+      misspellType = misspell.random(1, 3);
       switch (misspellType) {
         case 1:
           letterToSwapIndex = misspell.random(0, letters.length - 1);

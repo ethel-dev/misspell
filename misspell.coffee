@@ -20,7 +20,7 @@ misspell = (text, caps, capsTypes) ->
 
         # pick two random words from the string. if the random words match, time to misspell a word!
         if words[misspell.random(0, words.length)] is words[misspell.random(0, words.length)]
-            misspellType = misspell.random(1, 4) # pick number between 1 and 3 to pick a random misspell mode
+            misspellType = misspell.random(1, 3) # pick number between 1 and 3 to pick a random misspell mode
             switch misspellType
                 when 1
                     # simple swap (swap two letters next to each other)
