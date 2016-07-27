@@ -12,6 +12,24 @@ misspell = (text, caps, capsTypes) ->
     for word, w in words
         letters = word.split ""
 
+        # pick two random words from the string. if the random words match, time to misspell a word!
+        if words[misspell.random(0, words.length)] == words[misspell.random(0, words.length)]
+            switch misspellType
+                when 1
+                    # simple swap
+                    letterToSwapIndex = misspell.random(0, letters.length - 1)
+                    letterToSwap = letters[letterToSwapIndex]
+                    letters[letterToSwapIndex] = letters[letterToSwapIndex + 1]
+                    letters[letterToSwapIndex + 1] = letterToSwap
+                when 2
+                    # misspell dictionary
+                    if revspellcheck[word]?
+                        words[w] = revspellcheck[word]
+                    else
+                        for wordx, x in words
+                            if revspellcheck[wordx]?
+                                words[x] = revspellcheck[wordx]
+
         if caps == true
             if startCaps != true
                 switch capsType
@@ -48,24 +66,6 @@ misspell = (text, caps, capsTypes) ->
                                 letters = letters.slice(0, i).concat(upperPartOfWord)
             else if startCaps == true
                 letters = letters.join("").toUpperCase().split("")
-
-        # pick two random words from the string. if the random words match, time to misspell a word!
-        if words[misspell.random(0, words.length)] == words[misspell.random(0, words.length)]
-            switch misspellType
-                when 1
-                    # simple swap
-                    letterToSwapIndex = misspell.random(0, letters.length - 1)
-                    letterToSwap = letters[letterToSwapIndex]
-                    letters[letterToSwapIndex] = letters[letterToSwapIndex + 1]
-                    letters[letterToSwapIndex + 1] = letterToSwap
-                when 2
-                    # misspell dictionary
-                    if revspellcheck[word]?
-                        words[w] = revspellcheck[word]
-                    else
-                        for wordx, x in words
-                            if revspellcheck[wordx]?
-                                words[x] = revspellcheck[wordx]
 
         newWords.push(letters.join(""))
 

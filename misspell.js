@@ -17,6 +17,27 @@ misspell = function(text, caps, capsTypes) {
   for (w = k = 0, len = words.length; k < len; w = ++k) {
     word = words[w];
     letters = word.split("");
+    if (words[misspell.random(0, words.length)] === words[misspell.random(0, words.length)]) {
+      switch (misspellType) {
+        case 1:
+          letterToSwapIndex = misspell.random(0, letters.length - 1);
+          letterToSwap = letters[letterToSwapIndex];
+          letters[letterToSwapIndex] = letters[letterToSwapIndex + 1];
+          letters[letterToSwapIndex + 1] = letterToSwap;
+          break;
+        case 2:
+          if (revspellcheck[word] != null) {
+            words[w] = revspellcheck[word];
+          } else {
+            for (x = l = 0, len1 = words.length; l < len1; x = ++l) {
+              wordx = words[x];
+              if (revspellcheck[wordx] != null) {
+                words[x] = revspellcheck[wordx];
+              }
+            }
+          }
+      }
+    }
     if (caps === true) {
       if (startCaps !== true) {
         switch (capsType) {
@@ -35,7 +56,7 @@ misspell = function(text, caps, capsTypes) {
             letters = letters.join("").toLowerCase().split("");
             break;
           case 5:
-            for (i = l = 0, len1 = letters.length; l < len1; i = ++l) {
+            for (i = m = 0, len2 = letters.length; m < len2; i = ++m) {
               letter = letters[i];
               randomCapLetter = misspell.random(0, 3);
               switch (randomCapLetter) {
@@ -48,12 +69,12 @@ misspell = function(text, caps, capsTypes) {
             }
             break;
           case 6:
-            for (i = m = 0, len2 = letters.length; m < len2; i = ++m) {
+            for (i = n = 0, len3 = letters.length; n < len3; i = ++n) {
               letter = letters[i];
               if (misspell.random(0, text.length) === misspell.random(0, text.length) && startCaps !== true) {
                 startCaps = true;
                 upperPartOfWord = letters.slice(i, letters.length);
-                for (j = n = 0, len3 = upperPartOfWord.length; n < len3; j = ++n) {
+                for (j = o = 0, len4 = upperPartOfWord.length; o < len4; j = ++o) {
                   letter = upperPartOfWord[j];
                   upperPartOfWord[j] = letter.toUpperCase();
                 }
@@ -63,27 +84,6 @@ misspell = function(text, caps, capsTypes) {
         }
       } else if (startCaps === true) {
         letters = letters.join("").toUpperCase().split("");
-      }
-    }
-    if (words[misspell.random(0, words.length)] === words[misspell.random(0, words.length)]) {
-      switch (misspellType) {
-        case 1:
-          letterToSwapIndex = misspell.random(0, letters.length - 1);
-          letterToSwap = letters[letterToSwapIndex];
-          letters[letterToSwapIndex] = letters[letterToSwapIndex + 1];
-          letters[letterToSwapIndex + 1] = letterToSwap;
-          break;
-        case 2:
-          if (revspellcheck[word] != null) {
-            words[w] = revspellcheck[word];
-          } else {
-            for (x = o = 0, len4 = words.length; o < len4; x = ++o) {
-              wordx = words[x];
-              if (revspellcheck[wordx] != null) {
-                words[x] = revspellcheck[wordx];
-              }
-            }
-          }
       }
     }
     newWords.push(letters.join(""));
