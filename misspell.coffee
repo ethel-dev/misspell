@@ -2,6 +2,7 @@
 # by ethan arterberry
 
 revspellcheck = require "./reverse-spellcheck.json"
+path = require "path"
 
 misspell = (text, caps, capsTypes, misspellPercent) ->
     words = text.split " "
@@ -92,13 +93,14 @@ misspell.random = (min, max) ->
 module.exports = misspell
 
 # ghetto CLI
-if process.argv[5]?
-    console.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"), JSON.parse(process.argv[4]), Number(process.argv[5]))
-else if process.argv[4]?
-    console.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"), JSON.parse(process.argv[4]))
-else if process.argv[3]?
-    console.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"))
-else if process.argv[2]?
-    console.log misspell(String(process.argv[2]), true)
-else if process.argv[1]?
-    console.log "You just ran Misspell without any arguments. You can use Misspell like a CLI if you'd like, just put the arguments in the same order you would using it in JavaScript."
+if path.basename(process.argv[1]) is "misspell.js"
+    if process.argv[5]?
+        console.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"), JSON.parse(process.argv[4]), Number(process.argv[5]))
+    else if process.argv[4]?
+        console.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"), JSON.parse(process.argv[4]))
+    else if process.argv[3]?
+        console.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"))
+    else if process.argv[2]?
+        console.log misspell(String(process.argv[2]), true)
+    else if process.argv[1]?
+        console.log "You just ran Misspell without any arguments. You can use Misspell like a CLI if you'd like, just put the arguments in the same order you would using it in JavaScript."
