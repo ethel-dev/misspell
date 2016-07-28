@@ -16,7 +16,7 @@ misspell = function(text, caps, capsTypes, misspellPercent) {
   if (misspellPercent != null) {
     null;
   } else {
-
+    misspellPercent = 10;
   }
   for (w = j = 0, len = words.length; j < len; w = ++j) {
     word = words[w];
@@ -65,12 +65,14 @@ misspell = function(text, caps, capsTypes, misspellPercent) {
             for (i = l = 0, len2 = letters.length; l < len2; i = ++l) {
               letter = letters[i];
               randomCapLetter = misspell.random(0, 3);
-              switch (randomCapLetter) {
-                case 0:
-                  letters[i] = letter.toUpperCase();
-                  break;
-                case 1:
-                  letters[i] = letter.toLowerCase();
+              if (letters[i] != null) {
+                switch (randomCapLetter) {
+                  case 0:
+                    letters[i] = letter.toUpperCase();
+                    break;
+                  case 1:
+                    letters[i] = letter.toLowerCase();
+                }
               }
             }
             break;

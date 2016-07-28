@@ -16,7 +16,7 @@ misspell = (text, caps, capsTypes, misspellPercent) ->
     startCaps = null
 
     # default misspellchance
-    if misspellPercent? then null else
+    if misspellPercent? then null else misspellPercent = 10
 
     for word, w in words
         letters = word.split ""
@@ -62,11 +62,13 @@ misspell = (text, caps, capsTypes, misspellPercent) ->
                         # totally screwed up
                         for letter, i in letters
                             randomCapLetter = misspell.random(0, 3)
-                            switch randomCapLetter
-                                when 0
-                                    letters[i] = letter.toUpperCase()
-                                when 1
-                                    letters[i] = letter.toLowerCase()
+                            if letters[i]?
+                                switch randomCapLetter
+                                    when 0
+                                        letters[i] = letter.toUpperCase()
+                                    when 1
+                                        letters[i] = letter.toLowerCase()
+
                     when 6
                         # tumblr
                         for letter, i in letters
