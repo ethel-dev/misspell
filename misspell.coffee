@@ -2,6 +2,7 @@
 # by ethan arterberry
 
 revspellcheck = require "./reverse-spellcheck.json"
+closekeyboard = require "./keyboard-close.json"
 path = require "path"
 
 misspell = (text, caps, capsTypes, misspellPercent) ->
@@ -16,15 +17,14 @@ misspell = (text, caps, capsTypes, misspellPercent) ->
     newWords = []
     startCaps = null
 
-    # default misspellchance
+    # default misspell chance
     if misspellPercent? then null else misspellPercent = 10
 
     for word, w in words
         letters = word.split ""
 
-        # pick two random words from the string. if the random words match, time to misspell a word!
         if misspell.random(0, 101) <= misspellPercent
-            misspellType = misspell.random(1, 3) # pick number between 1 and 3 to pick a random misspell mode
+            misspellType = misspell.random(1, 5) # pick number between 1 and 5 to pick a random misspell mode
             switch misspellType
                 when 1
                     # simple swap (swap two letters next to each other)
@@ -36,12 +36,26 @@ misspell = (text, caps, capsTypes, misspellPercent) ->
                     # misspell dictionary
                     if revspellcheck[word]? # if current word has a misspelling in the file reverse-spellcheck.json, misspell it
                         words[w] = revspellcheck[word]
-                    else
+                    elsegit
                         for wordx, x in words
                             if revspellcheck[wordx]?
                                 words[x] = revspellcheck[wordx]
                                 break
-                       
+                when 3
+                    # remove letter from word
+                    letterHasBeenRemoved = false
+                    lettersCheckedForRemoval = 0
+                    until letterHasBeenRemoved is true or lettersCheckedForRemoval == letters.length
+                        letterToRemoveIndex = misspell.random(0, letters.length)
+                        letterToRemove = letters[letterToRemoveIndex]
+                        letters[letterToRemoveIndex] = ""
+                        letterHasBeenRemoved = true
+                        lettersCheckedForRemoval += 1
+                when 4
+                    # replace letter in word with close keyboard letter
+                    letterToReplaceIndex = misspell.random(0, letters.length)
+                    letterToReplace = letters[letterToReplaceIndex]
+                    letters[letterToReplaceIndex] = closekeyboard[letterToReplace][misspell.random(0, closekeyboard[letterToReplace].length)]
 
         if caps is true
             if startCaps isnt true

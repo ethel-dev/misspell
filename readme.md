@@ -27,6 +27,9 @@ You can also play around with `misspell.js` like a CLI. Run it with `node` and p
 ## Reverse Spellcheck Dictionary
 Part of what made this project possible is the Wikipedia [machine readable list of common misspellings.](https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/For_machines) I wrote a script to take that and make it into a nice JSON file, which sits in the folder `reverse-spellcheck/`. Feel free to use it to serialize your own files.
 
+## Close Letters On Keyboard JSON File
+This is a JSON file that includes each letter on a QWERTY keyboard and an array with the surrounding letters. Feel free to use it anyplace you like.
+
 ## License
 The reverse spellcheck JSON file is under public domain. I didn't think I'd need to copyright it considering I didn't really make it myself, I just formatted it right.
 
