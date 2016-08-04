@@ -8,11 +8,6 @@ loadMisspellDictionary = function(path, callback) {
   request.open('GET', path, true);
   request.onreadystatechange = function() {
     if (request.readyState === 4 && request.status === '200') {
-      if (typeof console !== "undefined" && console !== null) {
-        if (typeof console.log === "function") {
-          console.log(request.responseText);
-        }
-      }
       callback(JSON.parse(request.responseText));
     }
   };

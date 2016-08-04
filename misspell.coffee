@@ -9,7 +9,6 @@ loadMisspellDictionary = (path, callback) ->
 
     request.onreadystatechange = ->
         if request.readyState == 4 and request.status == '200'
-            console?.log? request.responseText
             callback JSON.parse(request.responseText)
             return
 
