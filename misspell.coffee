@@ -1,9 +1,38 @@
-# misspell 1.2.0
+# misspell 1.2.1
 # by ethan arterberry
 
-revspellcheck = require "./reverse-spellcheck.json"
-closekeyboard = require "./keyboard-close.json"
-path = require "path"
+# load misspell json file
+loadMisspellDictionary = (path, callback) ->
+    request = new XMLHttpRequest
+    request.overrideMimeType 'application/json'
+    request.open 'GET', path, true
+
+    request.onreadystatechange = ->
+        if request.readyState == 4 and request.status == '200'
+            console?.log? request.responseText
+            callback JSON.parse(request.responseText)
+            return
+
+    request.send null
+    
+if require?
+    revspellcheck = require "./reverse-spellcheck.json" 
+    closekeyboard = require "./keyboard-close.json"
+else
+    if misspellDependencies?
+        revspellcheck = misspellDependencies.revspellcheck
+        closekeyboard = misspellDependencies.closekeyboard
+    else
+        loadMisspellDictionary "reverse-spellcheck.json", (json) =>
+            revspellcheck = json
+        loadMisspellDictionary "keyboard-close.json", (json) =>
+            closekeyboard = json
+
+# check if dependencies are loaded
+if revspellcheck? and closekeyboard?
+    console?.info? "Misspell: Dependencies loaded."
+else
+    console?.info? "Misspell: Could not load needed dependencies. This could be for many reasons. Please refer to the README for more information. (https://github.com/soops/misspell#misspell)"
 
 misspell = (text, caps, capsTypes, misspellPercent) ->
     words = text.split " "
@@ -55,7 +84,8 @@ misspell = (text, caps, capsTypes, misspellPercent) ->
                     # replace letter in word with close keyboard letter
                     letterToReplaceIndex = misspell.random(0, letters.length)
                     letterToReplace = letters[letterToReplaceIndex]
-                    letters[letterToReplaceIndex] = closekeyboard[letterToReplace][misspell.random(0, closekeyboard[letterToReplace].length)]
+                    if closekeyboard[letterToReplace]?
+                        letters[letterToReplaceIndex] = closekeyboard[letterToReplace][misspell.random(0, closekeyboard[letterToReplace].length)]
 
         if caps is true
             if startCaps isnt true
@@ -103,18 +133,23 @@ misspell = (text, caps, capsTypes, misspellPercent) ->
 misspell.random = (min, max) ->
     return Math.floor(Math.random() * (max - min)) + min
 
-# allows misspell to work as a module
-module.exports = misspell
+try
+    path = require "path"
 
-# ghetto CLI
-if path.basename(process.argv[1]) is "misspell.js"
-    if process.argv[5]?
-        console.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"), JSON.parse(process.argv[4]), Number(process.argv[5]))
-    else if process.argv[4]?
-        console.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"), JSON.parse(process.argv[4]))
-    else if process.argv[3]?
-        console.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"))
-    else if process.argv[2]?
-        console.log misspell(String(process.argv[2]), true)
-    else if process.argv[1]?
-        console.log "You just ran Misspell without any arguments. You can use Misspell like a CLI if you'd like, just put the arguments in the same order you would using it in JavaScript."
+    # allows misspell to work as a module
+    module.exports = misspell
+
+    # ghetto CLI
+    if path.basename(process.argv[1]) is "misspell.js"
+        if process.argv[5]?
+            console?.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"), JSON.parse(process.argv[4]), Number(process.argv[5]))
+        else if process.argv[4]?
+            console?.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"), JSON.parse(process.argv[4]))
+        else if process.argv[3]?
+            console?.log misspell(String(process.argv[2]), (String(process.argv[3]) is "true"))
+        else if process.argv[2]?
+            console?.log misspell(String(process.argv[2]), true)
+        else if process.argv[1]?
+            console?.log "You just ran Misspell without any arguments. You can use Misspell like a CLI if you'd like, just put the arguments in the same order you would using it in JavaScript."
+catch e
+    console?.warn? "Misspell: " + e + ". This is mostly likely OK, and caused because you aren't using Node. Carry on!"

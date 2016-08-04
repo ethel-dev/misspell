@@ -30,6 +30,9 @@ Part of what made this project possible is the Wikipedia [machine readable list 
 ## Close Letters On Keyboard JSON File
 This is a JSON file that includes each letter on a QWERTY keyboard and an array with the surrounding letters. Feel free to use it anyplace you like.
 
+## Using Misspell On The Client Side
+If you plan to use Misspell in a web based HTML document, it is important to include the failsafe file `misspell-dependencies.js` in a place accessible by Misspell. This is in place because Misspell needs the files `keyboard-close.json` and `reverse-spellcheck.json`, and while it tries to run an HTTP request to get them, it doesn't always work due to CORS, disorganization, and many other potential issues.
+
 ## License
 The reverse spellcheck JSON file is under public domain. I didn't think I'd need to copyright it considering I didn't really make it myself, I just formatted it right.
 
