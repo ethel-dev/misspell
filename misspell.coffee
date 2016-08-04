@@ -1,4 +1,4 @@
-# misspell 1.1.2
+# misspell 1.2.0
 # by ethan arterberry
 
 revspellcheck = require "./reverse-spellcheck.json"
