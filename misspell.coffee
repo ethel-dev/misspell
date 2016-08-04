@@ -36,7 +36,7 @@ misspell = (text, caps, capsTypes, misspellPercent) ->
                     # misspell dictionary
                     if revspellcheck[word]? # if current word has a misspelling in the file reverse-spellcheck.json, misspell it
                         words[w] = revspellcheck[word]
-                    elsegit
+                    else
                         for wordx, x in words
                             if revspellcheck[wordx]?
                                 words[x] = revspellcheck[wordx]
